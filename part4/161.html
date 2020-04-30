@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>웹워커 예제</title>
+  </head>
+  <body>
+    <div>
+      <input type="number" id="number" />
+      <button id="start-btn">피보나치수열 계산시작</button>
+    </div>
+    <div id="result"></div>
+    <script>
+      if (!window.Worker) {
+        alert("웹 워커를 지원합니다.");
+      } else {
+        alert("웹 워커를 지원하지 않습니다.");
+      }
+      const result = document.getElementById("result");
+      let isCalculation = false;
+      if (window.Worker) {
+        const fibonacciWorker = new Worker("fibonacci.js");
+        document.getElementById("start-btn").addEventListener("click", (e) => {
+          // 버튼을 누르면 이벤트 발생
+          if (isCalculation) {
+            return;
+          }
+          const value = document.getElementById("number").value;
+          fibonacciWorker.postMessage({ num: value }); //피보나치워커에 메시지를 전달한다.
+          result.innerHTML = "계산 중 ....";
+          isCalculation = true;
+        });
+        fibonacciWorker.onmessage = function (e) {
+          //함수이름이 없는 함수 표현식
+          result.innerHTML = e.data;
+          isCalculation = false;
+        };
+        fibonacciWorker.onerror = function (error) {
+          console.error("에러 발생!", error.message);
+          result.innerHTML = error.message;
+          isCalculation = false;
+        };
+      }
+    </script>
+  </body>
+</html>

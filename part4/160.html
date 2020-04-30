@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fetch API 예제</title>
+  </head>
+  <body id="user"></body>
+  <script>
+    const userEl = document.getElementById("user");
+    const reqPromise = fetch("https://api.github.com/users/jeado22", {
+      //가져올 자원의 url을 가져오고
+      headers: { Accept: "application/json" }, //설정객체 => 보낼 데이터, GET/POST등의 메소드를 설정
+      method: "GET"
+    });
+
+    reqPromise
+      .then(res => {
+        //클라이언트쪽에서 요청한 후, 서버쪽에서 응답이 왔을 경우
+        if ((res.status >= 200 && res, status <= 300)) {
+          //상태코드가 200이상 300이하이면 요청받은 서버에서 클라이언트쪽으로 객체를 응답해준다.(Promise로 반환)
+          return res.json();
+        } else {
+          return Promise.reject(new Error(`Got status ${res.status}`)); // 다음 then으로 이어지지않고 catch로 에러처리 된다.
+        }
+      })
+      .then(user => {
+        userEl.innerHTML = `<img src="${user.avatar_url}" />
+        <br> 사용자이름 : ${user.login}, 깃허브주소: ${user.html_url}`;
+      })
+      .catch(error => alert(error));
+  </script>
+</html>

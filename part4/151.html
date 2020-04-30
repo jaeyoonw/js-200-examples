@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>HTML 폼 활용하기</title>
+  </head>
+  <body>
+    <form name="order">
+      <fieldset name="userInfo">
+        <legend>주문자 정보</legend>
+        이름: <input name="name" type="text" /> 전화번호:
+        <input name="tel" type="tel" />
+      </fieldset>
+      <fieldset name="productInfo">
+        <legend>상품 정보</legend>
+        상품명: <input name="productName" type="text" />
+        색상:
+        <select name="color">
+          <option value="black">검은색</option>
+          <option value="yellow">노란색</option>
+        </select>
+      </fieldset>
+      <button id="btn1" type="button">button 처리</button>
+      <button type="submit">submit 제출</button>
+    </form>
+    <script>
+      const orderForm = document.forms.order,
+        userField = orderForm.elements.userInfo, //name을 통해 Fieldset요소를 가져옴
+        productField = orderForm.elements.productInfo; //name을 통해 Fieldset요소를 가져옴
+
+      document.getElementById("btn1").addEventListener("click", e => {
+        const { name, tel } = userField.elements;
+        console.log(`${name.value} 사용자는 ${tel.value}로 주문합니다.`);
+      });
+
+      orderForm.addEventListener("submit", e => {
+        e.preventDefault(); //브라우저의 고유동작을 중단시킴 Ex) a태그를 누르면 이동한다던가, form안에 있는 input을 전달한다던가
+        const { productName, color } = productField.elements;
+        console.log(`${productName.value} 상품 ${color.value}색을 주문합니다`);
+      });
+    </script>
+  </body>
+</html>

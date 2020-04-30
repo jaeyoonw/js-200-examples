@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>로컬스토리지 예제</title>
+  </head>
+  <body>
+    <script>
+      class Cart {
+        constructor() {
+          //생성자
+          this._key = "app-cart";
+          const itemString = localStorage.getItem(this._key); //처음에는 key안에 아이템이 없음
+          if (itemString) {
+            this.items = JSON.parse(itemString); //itemString을 JSON 객체화 시켜서 items 배열에 넣는다.
+          } else {
+            this.items = []; // 초기에는 items에 빈 배열 생성
+          }
+        }
+        addItem(item) {
+          this.items.push(item);
+          const itemString = JSON.stringify(this.items); //items 배열을 JSON문자열로 만들어준다.
+          localStorage.setItem(this._key, itemString); //만들어진 JSON문자열을 "app-cart"라는 키로 지정한다.
+          this.items = item;
+        }
+      }
+      const cart = new Cart(); //items를 json객체화 한 객체를 가지고 있음
+      console.table(cart.items);
+      cart.addItem({ name: "A 노트북", price: 20000 });
+    </script>
+  </body>
+</html>

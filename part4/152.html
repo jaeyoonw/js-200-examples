@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>DOM 내비게이션 예제</title>
+    <link rel="stylesheet" href="./css/scroll.css" />
+  </head>
+  <body>
+    <section class="hero">
+      <h1>스크롤을 아래로 내려보세요.</h1>
+    </section>
+    <nav>
+      <a href="https://javascript-200.com">자바스크립트 200제</a>
+    </nav>
+    <section class="articles"></section>
+    <script>
+      const nav = document.querySelector("nav");
+      //console.log(nav);
+      const navTopOffset = nav.offsetTop; // off
+      window.addEventListener("scroll", e => {
+        if (window.pageYOffset >= navTopOffset) {
+          console.log(navTopOffset); //navTopOffset은 nav요소의 상단이 브라우저로 부터 얼마나 떨어져있는지
+          console.log(window.pageYOffset); //window.pageYOffset은 현재화면 상단이 브라우저로부터 얼마나 떨어져있는지
+          nav.style.position = "fixed";
+          nav.style.top = 0;
+          nav.style.left = 0;
+          nav.style.right = 0;
+        } else {
+          nav.style.position = "";
+          nav.style.top = "";
+        }
+      });
+    </script>
+  </body>
+</html>
